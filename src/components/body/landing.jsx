@@ -128,7 +128,11 @@ const CalendarScheduler = () => {
           time: 'Heure',
           event: 'Événement',
         }}
-      />
+       // Plage horaire
+       min={new Date(2024, 0, 1, 7)} // Début à 7h du matin
+       max={new Date(2024, 0, 1, 20)} // Fin à 8h du soir
+       
+     />
     </div>
   );
 };
