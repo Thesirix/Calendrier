@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import { format, parse, startOfWeek, getDay } from 'date-fns';
 import fr from 'date-fns/locale/fr';
-import './landing.css'; 
+import './landing.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import axios from 'axios';
 import Menu from '../Menu/menu.jsx'; 
@@ -98,8 +98,11 @@ const CalendarScheduler = () => {
     }
   };
 
+  // SECTION RETURN
+
   return (
     <div className="calendar-container" style={{ padding: '1rem' }}>
+      <div className="img"><img src="https://www.francestagepermis.fr/uploads/logo-fsp-vectorise.svg" alt="" /></div>
       <h2>Planning</h2>
       <Menu selectedUser={selectedUser} setSelectedUser={setSelectedUser} />
       <Calendar
