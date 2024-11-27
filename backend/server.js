@@ -89,7 +89,7 @@ app.delete('/events/:id', async (req, res) => {
         res.send('Événement supprimé avec succès');
     } catch (error) {
         console.error('Erreur lors de la suppression de l\'événement :', error);
-        res.status(500).send('Erreur du serveur');
+        res.status(500).send('Erreur du serveur');  
     }
 });
 
@@ -104,10 +104,24 @@ app.get('/users', async (req, res) => {
     }
 });
 
-
+// Route pour récupérer la couleur d'un utilisateur spécifique
+app.get('/users/:id/color', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const [user] = await pool.query('SELECT color FROM users WHERE id = ?', [id]);
+        if (user.length === 0) {
+            return res.status(404).send('Utilisateur non trouvé');
+        }
+        res.json({ color: user[0].color });
+    } catch (error) {
+        console.error('Erreur lors de la récupération de la couleur de l\'utilisateur :', error);
+        res.status(500).send('Erreur du serveur');
+    }
+});
 
 // Définir le port et lancer le serveur
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
