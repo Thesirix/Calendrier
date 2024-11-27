@@ -96,8 +96,8 @@ app.delete('/events/:id', async (req, res) => {
 // Route pour récupérer tous les utilisateurs
 app.get('/users', async (req, res) => {
     try {
-        const [rows] = await pool.query('SELECT * FROM users');  // Assurez-vous que 'users' est bien le nom de la table
-        res.json(rows);  // Retourne les utilisateurs sous forme de JSON
+        const [users] = await pool.query('SELECT id, name, color FROM users');
+        res.json(users);
     } catch (error) {
         console.error('Erreur lors de la récupération des utilisateurs :', error);
         res.status(500).send('Erreur du serveur');
