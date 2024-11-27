@@ -1,18 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import moment from 'moment';
+import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
+import { format, parse, startOfWeek, getDay } from 'date-fns';
+import fr from 'date-fns/locale/fr';
+import './landing.css'; 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import axios from 'axios';
-import Menu from '../Menu/menu.jsx'; // Importation du composant Menu
+import Menu from '../Menu/menu.jsx'; 
 
-const localizer = momentLocalizer(moment);
+// Configuration du localizer pour date-fns
+const locales = {
+  fr: fr,
+};
+
+const localizer = dateFnsLocalizer({
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  locales,
+});
 
 const CalendarScheduler = () => {
   const [events, setEvents] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
-    // Restaurer l'utilisateur et la couleur depuis localStorage au montage du composant
     const storedUserId = localStorage.getItem('selectedUserId');
     const storedUserColor = localStorage.getItem('selectedUserColor');
 
@@ -27,29 +39,28 @@ const CalendarScheduler = () => {
   const fetchEvents = async () => {
     try {
       const response = await axios.get('http://localhost:5000/events');
-      const usersResponse = await axios.get('http://localhost:5000/users'); // Récupère les utilisateurs pour les associer aux couleurs
-  
+      const usersResponse = await axios.get('http://localhost:5000/users');
+
       const usersMap = usersResponse.data.reduce((acc, user) => {
         acc[user.id] = user.color;
         return acc;
       }, {});
-  
+
       const eventsData = response.data.map(event => ({
         title: event.title,
         start: new Date(event.start_time),
         end: new Date(event.end_time),
-        color: usersMap[event.user_id] || '#000000', // Associer la couleur de l'utilisateur
+        color: usersMap[event.user_id] || '#000000',
       }));
       setEvents(eventsData);
     } catch (error) {
       console.error('Erreur lors de la récupération des événements', error);
     }
   };
-  
 
   useEffect(() => {
     fetchEvents();
-  }, [selectedUser]); // Rafraîchir les événements si l'utilisateur change
+  }, [selectedUser]);
 
   const handleSelectSlot = async ({ start, end }) => {
     if (!selectedUser) {
@@ -59,10 +70,10 @@ const CalendarScheduler = () => {
 
     const title = prompt('Entrer une horaire :');
     if (title) {
-      const start_time = moment(start).format('YYYY-MM-DD HH:mm:ss');
-      const end_time = moment(end).format('YYYY-MM-DD HH:mm:ss');
+      const start_time = format(start, 'yyyy-MM-dd HH:mm:ss');
+      const end_time = format(end, 'yyyy-MM-dd HH:mm:ss');
 
-      const newEvent = { 
+      const newEvent = {
         title,
         start_time,
         end_time,
@@ -88,24 +99,36 @@ const CalendarScheduler = () => {
   };
 
   return (
-    <div className="calendar-container" style={{ height: '80vh', padding: '1rem' }}>
-      <h2>Scheduler and Calendar</h2>
+    <div className="calendar-container" style={{ padding: '1rem' }}>
+      <h2>Planning</h2>
       <Menu selectedUser={selectedUser} setSelectedUser={setSelectedUser} />
       <Calendar
-  localizer={localizer}
-  events={events}
-  startAccessor="start"
-  endAccessor="end"
-  selectable
-  onSelectSlot={handleSelectSlot}
-  eventPropGetter={event => ({
-    style: { backgroundColor: event.color, color: '#fff' }, // Utilisation de la couleur associée à l'événement
-  })}
-  defaultView="week"
-  views={['month', 'week', 'day']}
-  style={{ height: '100%' }}
-/>
-
+        localizer={localizer}
+        culture="fr"
+        events={events}
+        startAccessor="start"
+        endAccessor="end"
+        selectable
+        onSelectSlot={handleSelectSlot}
+        eventPropGetter={event => ({
+          style: { backgroundColor: event.color, color: '#fff' },
+        })}
+        defaultView="week"
+        views={['month', 'week', 'day']}
+        style={{ height: '60vh', width: '100%' }}
+        messages={{
+          next: 'Suivant',
+          previous: 'Précédent',
+          today: "Aujourd'hui",
+          month: 'Mois',
+          week: 'Semaine',
+          day: 'Jour',
+          agenda: 'Agenda',
+          date: 'Date',
+          time: 'Heure',
+          event: 'Événement',
+        }}
+      />
     </div>
   );
 };

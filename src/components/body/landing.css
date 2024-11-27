@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+
+
+
+
+
+
+/* Grands écrans */
+.calendar-container {
+    padding: 2rem;
+    max-width: 1500px;
+    margin: 0 auto;
+    font-family: 'Inter', sans-serif;
+  }
+  
+/* Appliquer une police générale au calendrier */
+.react-big-calendar {
+    font-family: 'Inter', sans-serif;
+  }
+  
+/* Supprimer la bordure autour des événements */
+.rbc-event {
+  border: none !important; /* Ajoute !important pour écraser d'autres styles par défaut */
+  color: #ffffff; 
+  font-size: 13px;
+}
+
+  
+ button {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px; 
+  }
+
+  h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 30px;
+    justify-content: center; 
+    display: flex;
+    font-weight: 500;
+    letter-spacing: 3px;
+  }
+
+
+  /* SECTION RESPONSIVE */
+
+  /* Petits écrans (moins de 768px) */
+  @media (max-width: 768px) {
+    .calendar-wrapper {
+      height: 50vh; /* Réduit la hauteur du calendrier sur mobile */
+    }
+  
+    .calendar-container {
+      padding: 1rem; /* Réduit la marge pour les petits écrans */
+    }
+  }
+  
+  /* Ecrans moyens (tablettes) */
+  @media (max-width: 1024px) {
+    .calendar-wrapper {
+      height: 60vh;
+    }
+    .calendar-container {
+      padding: 1.5rem;
+    }
+  }
+  
+  /* Ecrans très larges */
+  @media (min-width: 1200px) {
+    .calendar-wrapper {
+      height: 70vh; /* Augmente la hauteur pour les grands écrans */
+    }
+  }
+  

@@ -1,0 +1,51 @@
+/* Container du select personnalisé */
+.custom-select-container {
+    position: relative;
+    width: 500px;
+}
+
+/* Style pour le bouton de sélection */
+.custom-select {
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    background-color: white;
+}
+
+/* Liste des options du menu déroulant */
+.custom-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: white;
+    z-index: 1;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+/* Option individuelle dans la liste */
+.custom-option {
+    padding: 10px;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+}
+
+/* Option par défaut */
+.custom-option.default-option {
+    font-weight: bold;
+    color: #888;
+    cursor: default;
+}
+
+/* Style au survol de chaque option */
+.custom-option:hover {
+    background-color: rgb(244, 238, 253); /* Fond jaune au survol */
+    color: black; /* Texte noir */
+}
