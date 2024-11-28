@@ -62,41 +62,49 @@ const CalendarScheduler = () => {
     fetchEvents();
   }, [selectedUser]);
 
+  const [arrivalMessage, setArrivalMessage] = useState('');
+
   const handleSelectSlot = async ({ start, end }) => {
     if (!selectedUser) {
       alert('Veuillez sélectionner un utilisateur');
       return;
     }
 
+    
+
+
     const title = prompt('Entrer une horaire :');
-    if (title) {
-      const start_time = format(start, 'yyyy-MM-dd HH:mm:ss');
-      const end_time = format(end, 'yyyy-MM-dd HH:mm:ss');
+  if (title) {
+    const start_time = format(start, 'yyyy-MM-dd HH:mm:ss');
+    const end_time = format(end, 'yyyy-MM-dd HH:mm:ss');
+    
+    // Ajout du format de l'heure d'arrivée
+    const formattedTime = format(start, 'HH:mm');
+    setArrivalMessage(formattedTime);
 
-      const newEvent = {
-        title,
-        start_time,
-        end_time,
-        description: 'Nouvel événement',
-        user_id: selectedUser.id,
-      };
-
-      try {
-        const response = await axios.post('http://localhost:5000/events', newEvent);
-        setEvents(prevEvents => [
-          ...prevEvents,
-          {
-            title,
-            start: new Date(response.data.start_time),
-            end: new Date(response.data.end_time),
-            color: selectedUser.color,
-          }
-        ]);
-      } catch (error) {
-        console.error("Erreur lors de l'ajout de l'événement:", error);
-      }
+    const newEvent = {
+      title,
+      start_time,
+      end_time,
+      description: 'Nouvel événement',
+      user_id: selectedUser.id,
+    };
+    try {
+      const response = await axios.post('http://localhost:5000/events', newEvent);
+      setEvents(prevEvents => [
+        ...prevEvents,
+        {
+          title,
+          start: new Date(response.data.start_time),
+          end: new Date(response.data.end_time),
+          color: selectedUser.color,
+        }
+      ]);
+    } catch (error) {
+      console.error("Erreur lors de l'ajout de l'événement:", error);
     }
-  };
+  }
+};
 
   // SECTION RETURN
 
@@ -104,7 +112,12 @@ const CalendarScheduler = () => {
     <div className="calendar-container" style={{ padding: '1rem' }}>
       <div className="img"><img src="https://www.francestagepermis.fr/uploads/logo-fsp-vectorise.svg" alt="" /></div>
       <h2>Planning</h2>
-      <Menu selectedUser={selectedUser} setSelectedUser={setSelectedUser} />
+      <Menu 
+  selectedUser={selectedUser} 
+  setSelectedUser={setSelectedUser} 
+  arrivalMessage={arrivalMessage} 
+/>
+
       <Calendar
         localizer={localizer}
         culture="fr"

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './menu.css';
 
-const Menu = ({ selectedUser, setSelectedUser }) => {
+const Menu = ({ selectedUser, setSelectedUser, arrivalMessage }) => {
     const [users, setUsers] = useState([]);
     const [isOpen, setIsOpen] = useState(false); // État pour gérer l'ouverture/fermeture du menu
 
@@ -40,31 +40,32 @@ const Menu = ({ selectedUser, setSelectedUser }) => {
 
     return (
         <div className="custom-select-container">
-            <div className="custom-select" onClick={toggleMenu}>
-                {/* Affiche le nom de l'utilisateur sélectionné ou l'option par défaut */}
-                {selectedUser ? selectedUser.name : 'Sélectionnez un utilisateur'}
-            </div>
-            {isOpen && (
-                <div className="custom-options">
-                    <div
-                        className="custom-option default-option"
-                        onClick={() => handleUserChange(null)} // Réinitialiser la sélection
-                    >
-                        Sélectionnez un utilisateur
-                    </div>
-                    {users.map(user => (
-                        <div
-                            key={user.id}
-                            className="custom-option"
-                            onClick={() => handleUserChange(user)}
-                        >
-                            {user.name}
-                        </div>
-                    ))}
+          <div className="custom-select" onClick={toggleMenu}>
+            {selectedUser
+              ? `${selectedUser.name} ${arrivalMessage ? `- est arrivé à ${arrivalMessage}` : ''}`
+              : 'Sélectionnez un utilisateur'}
+          </div>
+          {isOpen && (
+            <div className="custom-options">
+              <div
+                className="custom-option default-option"
+                onClick={() => handleUserChange(null)}
+              >
+                Sélectionnez un utilisateur
+              </div>
+              {users.map(user => (
+                <div
+                  key={user.id}
+                  className="custom-option"
+                  onClick={() => handleUserChange(user)}
+                >
+                  {user.name}
                 </div>
-            )}
+              ))}
+            </div>
+          )}
         </div>
-    );
-};
+      );
+    };
 
 export default Menu;
