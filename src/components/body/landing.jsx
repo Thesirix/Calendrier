@@ -69,42 +69,42 @@ const CalendarScheduler = () => {
       alert('Veuillez sélectionner un utilisateur');
       return;
     }
-
-    
-
-
+  
     const title = prompt('Entrer une horaire :');
-  if (title) {
-    const start_time = format(start, 'yyyy-MM-dd HH:mm:ss');
-    const end_time = format(end, 'yyyy-MM-dd HH:mm:ss');
-    
-    // Ajout du format de l'heure d'arrivée
-    const formattedTime = format(start, 'HH:mm');
-    setArrivalMessage(formattedTime);
-
-    const newEvent = {
-      title,
-      start_time,
-      end_time,
-      description: 'Nouvel événement',
-      user_id: selectedUser.id,
-    };
-    try {
-      const response = await axios.post('http://localhost:5000/events', newEvent);
-      setEvents(prevEvents => [
-        ...prevEvents,
-        {
-          title,
-          start: new Date(response.data.start_time),
-          end: new Date(response.data.end_time),
-          color: selectedUser.color,
-        }
-      ]);
-    } catch (error) {
-      console.error("Erreur lors de l'ajout de l'événement:", error);
+    if (title) {
+      const formattedTime = format(start, 'HH:mm');
+  
+      // Sauvegarder l'heure d'arrivée spécifique à cet utilisateur
+      localStorage.setItem(`arrivalMessage_${selectedUser.id}`, formattedTime);
+  
+      const start_time = format(start, 'yyyy-MM-dd HH:mm:ss');
+      const end_time = format(end, 'yyyy-MM-dd HH:mm:ss');
+  
+      const newEvent = {
+        title,
+        start_time,
+        end_time,
+        description: 'Nouvel événement',
+        user_id: selectedUser.id,
+      };
+  
+      try {
+        const response = await axios.post('http://localhost:5000/events', newEvent);
+        setEvents(prevEvents => [
+          ...prevEvents,
+          {
+            title,
+            start: new Date(response.data.start_time),
+            end: new Date(response.data.end_time),
+            color: selectedUser.color,
+          }
+        ]);
+      } catch (error) {
+        console.error("Erreur lors de l'ajout de l'événement:", error);
+      }
     }
-  }
-};
+  };
+  
 
   // SECTION RETURN
 
@@ -144,9 +144,9 @@ const CalendarScheduler = () => {
           time: 'Heure',
           event: 'Événement',
         }}
-       // Plage horaire
-       min={new Date(2024, 0, 1, 7)} // Début à 7h du matin
-       max={new Date(2024, 0, 1, 20)} // Fin à 8h du soir
+       // Plage horaire 7H/20H
+       min={new Date(2024, 0, 1, 7)} 
+       max={new Date(2024, 0, 1, 20)} 
        
      />
     </div>
