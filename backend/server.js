@@ -80,7 +80,7 @@ app.put('/events/:id', async (req, res) => {
 // Route pour supprimer un événement
 app.delete('/events/:id', async (req, res) => {
     try {
-      const { id } = req.params;  // Récupère l'ID de l'événement depuis l'URL
+      const { id } = req.params;  
       const [result] = await pool.query('DELETE FROM events WHERE id = ?', [id]);
       if (result.affectedRows === 0) {
         return res.status(404).send('Événement non trouvé');

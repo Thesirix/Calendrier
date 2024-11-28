@@ -47,7 +47,7 @@ const CalendarScheduler = () => {
       }, {});
   
       const eventsData = response.data.map(event => ({
-        id: event.id,  // Assurez-vous que chaque événement a un champ 'id'
+        id: event.id,  
         title: event.title,
         start: new Date(event.start_time),
         end: new Date(event.end_time),
@@ -98,31 +98,26 @@ const CalendarScheduler = () => {
   
 
   const handleDeleteEvent = async (event) => {
-    console.log(event);  // Inspectez l'objet complet
-    const eventId = event.id; // Vérifiez si cet ID existe
+    console.log(event);  
+    const eventId = event.id; 
   
     if (eventId === undefined) {
       console.error("L'ID de l'événement n'est pas défini");
       return;
     }
   
-    if (window.confirm("Êtes-vous sûr de vouloir supprimer cet événement ?")) {
+    if (window.confirm("Êtes-vous sûr de vouloir supprimer cet horaire ?")) {
       try {
         console.log("Suppression de l'événement avec ID:", eventId);
         await axios.delete(`http://localhost:5000/events/${eventId}`);
         setEvents(events.filter(evt => evt.id !== eventId));
-        alert('Événement supprimé avec succès');
+        alert('Horaire supprimé');
       } catch (error) {
         console.error('Erreur lors de la suppression de l\'événement :', error);
         alert('Erreur lors de la suppression de l\'événement');
       }
     }
   };
-  
-  
-  
-  
-  
   
 
   // SECTION RETURN
@@ -145,7 +140,7 @@ const CalendarScheduler = () => {
   endAccessor="end"
   selectable
   onSelectSlot={handleSelectSlot}
-  onSelectEvent={handleDeleteEvent}  // On passe l'objet 'event' complet ici
+  onSelectEvent={handleDeleteEvent}  
   eventPropGetter={event => ({
     style: { backgroundColor: event.color, color: '#fff' },
   })}
