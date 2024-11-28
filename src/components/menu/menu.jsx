@@ -41,12 +41,9 @@ const Menu = ({ selectedUser, setSelectedUser }) => {
   return (
     <div className="custom-select-container">
       <div className="custom-select" onClick={toggleMenu}>
-        {selectedUser
-          ? `${selectedUser.name} - est arrivé à ${
-              selectedUser.arrivalMessage ? selectedUser.arrivalMessage : ''
-            }`
-          : 'Sélectionnez un utilisateur'}
-      </div>
+  {selectedUser ? selectedUser.name : 'Sélectionnez un utilisateur'}
+</div>
+
       {isOpen && (
         <div className="custom-options">
           <div
@@ -56,30 +53,25 @@ const Menu = ({ selectedUser, setSelectedUser }) => {
             Sélectionnez un utilisateur
           </div>
           {users.map(user => (
-            <div
-              key={user.id}
-              className="custom-option"
-              onClick={() => handleUserChange(user)}
-            >
-              {/* Pastille de couleur avant le nom de l'utilisateur */}
-              <span
-                style={{
-                  display: 'inline-block',
-                  width: '12px',
-                  height: '12px',
-                  borderRadius: '50%',
-                  backgroundColor: user.color, 
-                  marginRight: '10px'
-                }}
-              ></span>
-              {user.name}
-              {localStorage.getItem(`arrivalMessage_${user.id}`) && (
-                <span className="arrival-time">
-                  - est arrivé à {localStorage.getItem(`arrivalMessage_${user.id}`)}
-                </span>
-              )}
-            </div>
-          ))}
+  <div
+    key={user.id}
+    className="custom-option"
+    onClick={() => handleUserChange(user)}
+  >
+    <span
+      style={{
+        display: 'inline-block',
+        width: '12px',
+        height: '12px',
+        borderRadius: '50%',
+        backgroundColor: user.color,
+        marginRight: '10px'
+      }}
+    ></span>
+    {user.name}
+  </div>
+))}
+
         </div>
       )}
     </div>

@@ -1,16 +1,15 @@
 import express from 'express';
-import pool from './database/db.js'; // Assurez-vous que le chemin est correct
+import pool from './database/db.js'; 
 import dotenv from 'dotenv';
-import cors from 'cors';  // Importer le package CORS
+import cors from 'cors';  
 
 // Charger les variables d'environnement
 dotenv.config();
-
 const app = express();
 
 // Middleware pour activer CORS
 app.use(cors({
-    origin: 'http://localhost:5173',  // Autoriser uniquement cette origine (ton frontend)
+    origin: 'http://localhost:5173', 
     methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Autoriser ces méthodes HTTP
     allowedHeaders: ['Content-Type', 'Authorization'],  // Autoriser ces headers
 }));
@@ -81,17 +80,19 @@ app.put('/events/:id', async (req, res) => {
 // Route pour supprimer un événement
 app.delete('/events/:id', async (req, res) => {
     try {
-        const { id } = req.params;
-        const [result] = await pool.query('DELETE FROM events WHERE id = ?', [id]);
-        if (result.affectedRows === 0) {
-            return res.status(404).send('Événement non trouvé');
-        }
-        res.send('Événement supprimé avec succès');
+      const { id } = req.params;  // Récupère l'ID de l'événement depuis l'URL
+      const [result] = await pool.query('DELETE FROM events WHERE id = ?', [id]);
+      if (result.affectedRows === 0) {
+        return res.status(404).send('Événement non trouvé');
+      }
+      res.send('Événement supprimé avec succès');
     } catch (error) {
-        console.error('Erreur lors de la suppression de l\'événement :', error);
-        res.status(500).send('Erreur du serveur');  
+      console.error('Erreur lors de la suppression de l\'événement :', error.message);
+      res.status(500).send('Erreur du serveur');
     }
-});
+  });
+  
+  
 
 // Route pour récupérer tous les utilisateurs
 app.get('/users', async (req, res) => {
