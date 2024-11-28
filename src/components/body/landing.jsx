@@ -7,7 +7,6 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import axios from 'axios';
 import Menu from '../Menu/menu.jsx'; 
 
-
 const locales = {
   fr: fr,
 };
@@ -58,7 +57,6 @@ const CalendarScheduler = () => {
       console.error('Erreur lors de la récupération des événements', error);
     }
   };
-  
 
   useEffect(() => {
     fetchEvents();
@@ -71,20 +69,17 @@ const CalendarScheduler = () => {
       alert('Veuillez sélectionner un utilisateur dans le menu.');
       return;
     }
-  
-    // Nouvel event dans le calendrier + nom de l'utilisateur sélectionné
+
     const newEvent = {
       title: selectedUser.name, 
       start: new Date(start),
       end: new Date(end),
       color: selectedUser.color, 
     };
-  
-    
+
     setEvents((prevEvents) => [...prevEvents, newEvent]);
-  
+
     try {
-      
       await axios.post('http://localhost:5000/events', {
         title: selectedUser.name,
         start_time: format(start, 'yyyy-MM-dd HH:mm:ss'),
@@ -95,17 +90,16 @@ const CalendarScheduler = () => {
       console.error('Erreur lors de l’ajout de l’événement :', error);
     }
   };
-  
 
   const handleDeleteEvent = async (event) => {
     console.log(event);  
     const eventId = event.id; 
-  
+
     if (eventId === undefined) {
       console.error("L'ID de l'événement n'est pas défini");
       return;
     }
-  
+
     if (window.confirm("Êtes-vous sûr de vouloir supprimer cet horaire ?")) {
       try {
         console.log("Suppression de l'événement avec ID:", eventId);
@@ -118,7 +112,6 @@ const CalendarScheduler = () => {
       }
     }
   };
-  
 
   // SECTION RETURN
 
@@ -127,42 +120,44 @@ const CalendarScheduler = () => {
       <div className="img"><img src="https://www.francestagepermis.fr/uploads/logo-fsp-vectorise.svg" alt="" /></div>
       <h2>Planning</h2>
       <Menu 
-  selectedUser={selectedUser} 
-  setSelectedUser={setSelectedUser} 
-  arrivalMessage={arrivalMessage} 
-/>
+        selectedUser={selectedUser} 
+        setSelectedUser={setSelectedUser} 
+        arrivalMessage={arrivalMessage} 
+      />
 
-<Calendar
-  localizer={localizer}
-  culture="fr"
-  events={events}
-  startAccessor="start"
-  endAccessor="end"
-  selectable
-  onSelectSlot={handleSelectSlot}
-  onSelectEvent={handleDeleteEvent}  
-  eventPropGetter={event => ({
-    style: { backgroundColor: event.color, color: '#fff' },
-  })}
-  defaultView="week"
-  views={['month', 'week', 'day']}
-  style={{ height: '60vh', width: '100%' }}
-  messages={{
-    next: 'Suivant',
-    previous: 'Précédent',
-    today: "Aujourd'hui",
-    month: 'Mois',
-    week: 'Semaine',
-    day: 'Jour',
-    agenda: 'Agenda',
-    date: 'Date',
-    time: 'Heure',
-    event: 'Événement',
-  }}
-  min={new Date(2024, 0, 1, 7)}
-  max={new Date(2024, 0, 1, 20)}
-/>
-
+      <Calendar
+        localizer={localizer}
+        culture="fr"
+        events={events}
+        startAccessor="start"
+        endAccessor="end"
+        selectable
+        onSelectSlot={handleSelectSlot}
+        onSelectEvent={handleDeleteEvent}  
+        eventPropGetter={event => ({
+          style: { backgroundColor: event.color, color: '#fff' },
+        })}
+        defaultView="week"
+        views={['month', 'week', 'day']}
+        style={{ height: '60vh', width: '100%' }}
+        messages={{
+          next: 'Suivant',
+          previous: 'Précédent',
+          today: "Aujourd'hui",
+          month: 'Mois',
+          week: 'Semaine',
+          day: 'Jour',
+          agenda: 'Agenda',
+          date: 'Date',
+          time: 'Heure',
+          event: 'Événement',
+        }}
+        min={new Date(2024, 0, 1, 7)}
+        max={new Date(2024, 0, 1, 20)}
+        formats={{
+          eventTimeRangeFormat: ({ start }) => format(start, 'H:mm'), // Affiche seulement l'heure de début en format 24h
+        }}
+      />
     </div>
   );
 };
