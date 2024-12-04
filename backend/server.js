@@ -9,7 +9,10 @@ const app = express();
 
 // Middleware pour activer CORS
 app.use(cors({
-    origin: 'http://localhost:5173', 
+    origin: [
+        "http://planning.francestagepermis.fr:2999", // Frontend Vite
+        "http://planning.francestagepermis.fr:5000", // Backend API
+      ],   
     methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Autoriser ces méthodes HTTP
     allowedHeaders: ['Content-Type', 'Authorization'],  // Autoriser ces headers
 }));

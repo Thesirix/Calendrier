@@ -37,8 +37,8 @@ const CalendarScheduler = () => {
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/events');
-      const usersResponse = await axios.get('http://localhost:5000/users');
+      const response = await axios.get('http://planning.francestagepermis.fr:5000/events');
+      const usersResponse = await axios.get('http://planning.francestagepermis.fr:5000/users');
   
       const usersMap = usersResponse.data.reduce((acc, user) => {
         acc[user.id] = user.color;
@@ -80,7 +80,7 @@ const CalendarScheduler = () => {
     setEvents((prevEvents) => [...prevEvents, newEvent]);
 
     try {
-      await axios.post('http://localhost:5000/events', {
+      await axios.post('http://planning.francestagepermis.fr:5000/events', {
         title: selectedUser.name,
         start_time: format(start, 'yyyy-MM-dd HH:mm:ss'),
         end_time: format(end, 'yyyy-MM-dd HH:mm:ss'),
@@ -103,7 +103,7 @@ const CalendarScheduler = () => {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer cet horaire ?")) {
       try {
         console.log("Suppression de l'événement avec ID:", eventId);
-        await axios.delete(`http://localhost:5000/events/${eventId}`);
+        await axios.delete(`http://planning.francestagepermis.fr:5000/events/${eventId}`);
         setEvents(events.filter(evt => evt.id !== eventId));
         alert('Horaire supprimé');
       } catch (error) {

@@ -9,7 +9,7 @@ const Menu = ({ selectedUser, setSelectedUser }) => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/users');
+        const response = await axios.get('http://planning.francestagepermis.fr:5000/users');
         setUsers(response.data);
       } catch (error) {
         console.error('Erreur lors de la récupération des utilisateurs :', error);
