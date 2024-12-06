@@ -37,7 +37,6 @@ const Menu = ({ selectedUser, setSelectedUser }) => {
   };
 
 // SECTION RETURN
-
   return (
     <div className="custom-select-container">
       <div className="custom-select" onClick={toggleMenu}>

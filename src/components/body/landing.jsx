@@ -60,9 +60,7 @@ const CalendarScheduler = () => {
 
   useEffect(() => {
     fetchEvents();
-  }, [selectedUser]);
-
-  const [arrivalMessage] = useState('');
+  }, []);
 
   const handleSelectSlot = async ({ start, end }) => {
     if (!selectedUser) {
@@ -92,8 +90,7 @@ const CalendarScheduler = () => {
   };
 
   const handleDeleteEvent = async (event) => {
-    console.log(event);  
-    const eventId = event.id; 
+    const eventId = event.id;
 
     if (eventId === undefined) {
       console.error("L'ID de l'événement n'est pas défini");
@@ -102,7 +99,6 @@ const CalendarScheduler = () => {
 
     if (window.confirm("Êtes-vous sûr de vouloir supprimer cet horaire ?")) {
       try {
-        console.log("Suppression de l'événement avec ID:", eventId);
         await axios.delete(`http://planning.francestagepermis.fr:5000/events/${eventId}`);
         setEvents(events.filter(evt => evt.id !== eventId));
         alert('Horaire supprimé');
@@ -113,8 +109,6 @@ const CalendarScheduler = () => {
     }
   };
 
-  // SECTION RETURN
-
   return (
     <div className="calendar-container" style={{ padding: '1rem' }}>
       <div className="img"><img src="https://www.francestagepermis.fr/uploads/logo-fsp-vectorise.svg" alt="" /></div>
@@ -122,7 +116,6 @@ const CalendarScheduler = () => {
       <Menu 
         selectedUser={selectedUser} 
         setSelectedUser={setSelectedUser} 
-        arrivalMessage={arrivalMessage} 
       />
 
       <Calendar
@@ -155,7 +148,7 @@ const CalendarScheduler = () => {
         min={new Date(2024, 0, 1, 7)}
         max={new Date(2024, 0, 1, 20)}
         formats={{
-          eventTimeRangeFormat: ({ start }) => format(start, 'H:mm'), // Affiche seulement l'heure de début en format 24h
+          eventTimeRangeFormat: ({ start }) => format(start, 'H:mm'),
         }}
       />
     </div>

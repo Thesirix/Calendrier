@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Onest:wght@100..900&family=Poppins:wght@100..900&display=swap');
+html, body {
+    margin: 0; 
+    padding: 0; 
+    height: 100%; 
+}
+
+.login-page {
+    background-color: #00124B;
+    min-height: 100vh;
+    height: 100%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+
+.login-card {
+    background-color: white;
+    padding: 3rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Application des polices */
+h2 {
+    font-family: 'Poppins', sans-serif;
+    color: #bd0e02;
+    margin-bottom: 1rem;
+}
+
+h3 {
+    font-family: 'Onest', sans-serif;
+    font-size: 1rem;
+    color: #00124B;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    border: none;
+    outline: none;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 2px solid #00124B;
+}
+
+.text-grey {
+    color: #6b7280;
+}
+
+button {
+    background-color: #d2e7ff;
+    border: none;
+    padding: 10px;
+    justify-content: center;
+    display: flex;
+    border-radius: 5px;
+    
+}
+
+button:hover {
+    background-color: rgb(255, 255, 255);
+    border-color: #00124B;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.text-sm a {
+    color: #0b2e6e;
+    transition: color 0.3s;
+}
+
+.text-sm a:hover {
+    color: #E57358;
+    text-decoration: underline;
+}
+
+.error-text {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #ca1205; 
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

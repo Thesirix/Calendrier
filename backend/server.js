@@ -3,21 +3,21 @@ import pool from './database/db.js';
 import dotenv from 'dotenv';
 import cors from 'cors';  
 
-// Charger les variables d'environnement
+
 dotenv.config();
 const app = express();
 
-// Middleware pour activer CORS
+//  CORS
 app.use(cors({
     origin: [
-        "http://planning.francestagepermis.fr:2999", // Frontend Vite
-        "http://planning.francestagepermis.fr:5000", // Backend API
+        "http://planning.francestagepermis.fr:2999", 
+        "http://planning.francestagepermis.fr:5000", 
       ],   
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Autoriser ces méthodes HTTP
-    allowedHeaders: ['Content-Type', 'Authorization'],  // Autoriser ces headers
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    allowedHeaders: ['Content-Type', 'Authorization'],  
 }));
 
-// Middleware pour parser les requêtes JSON
+
 app.use(express.json());
 
 // Route pour récupérer tous les événements
@@ -83,19 +83,17 @@ app.put('/events/:id', async (req, res) => {
 // Route pour supprimer un événement
 app.delete('/events/:id', async (req, res) => {
     try {
-      const { id } = req.params;  
-      const [result] = await pool.query('DELETE FROM events WHERE id = ?', [id]);
-      if (result.affectedRows === 0) {
-        return res.status(404).send('Événement non trouvé');
-      }
-      res.send('Événement supprimé avec succès');
+        const { id } = req.params;  
+        const [result] = await pool.query('DELETE FROM events WHERE id = ?', [id]);
+        if (result.affectedRows === 0) {
+            return res.status(404).send('Événement non trouvé');
+        }
+        res.send('Événement supprimé avec succès');
     } catch (error) {
-      console.error('Erreur lors de la suppression de l\'événement :', error.message);
-      res.status(500).send('Erreur du serveur');
+        console.error('Erreur lors de la suppression de l\'événement :', error.message);
+        res.status(500).send('Erreur du serveur');
     }
-  });
-  
-  
+});
 
 // Route pour récupérer tous les utilisateurs
 app.get('/users', async (req, res) => {
@@ -123,9 +121,36 @@ app.get('/users/:id/color', async (req, res) => {
     }
 });
 
+// Route pour la connexion d'un utilisateur (ajoutée)
+app.post('/login', async (req, res) => {
+    const { name, password } = req.body;
+
+    try {
+        // Vérifiez les informations d'identification de l'utilisateur dans la base de données
+        const [rows] = await pool.query('SELECT * FROM users WHERE name = ? AND password = ?', [name, password]);
+
+        if (rows.length === 0) {
+            return res.status(401).json({ message: 'Nom d\'utilisateur ou mot de passe incorrect' });
+        }
+
+        const user = rows[0];
+        res.json({
+            message: 'Connexion réussie',
+            user: {
+                id: user.id,
+                name: user.name,
+                color: user.color,
+            },
+            
+        });
+    } catch (error) {
+        console.error('Erreur lors de la connexion :', error);
+        res.status(500).send('Erreur du serveur');
+    }
+});
+
 // Définir le port et lancer le serveur
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
-
